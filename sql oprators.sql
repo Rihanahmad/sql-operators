@@ -75,4 +75,39 @@ begin
 select* from countrytab
 end
 
+else if @ActionType='countrytable'
+begin
+SELECT  countrytab.name,statetab.name
+FROM countrytab
+INNER JOIN statetab
+ON countrytab.id = statetab.countryid
+End
+
+
+public ActionResult getDepartment()  
+        {  
+            DatabaseEntities db = new DatabaseEntities();  
+            return Json(db.Departments.Select(x => new  
+            {  
+                DepartmentID = x.DepartmentID,  
+                DepartmentName = x.DepartmentName  
+            }).ToList(), JsonRequestBehavior.AllowGet);  
+        }  
+        
+        
+        $(document).ready(function () {  
+       $.ajax({  
+           type: "GET",  
+           url: "/Users/getDepartment",  
+           data: "{}",  
+           success: function (data) {  
+               var s = '<option value="-1">Please Select a Department</option>';  
+               for (var i = 0; i < data.length; i++) {  
+                   s += '<option value="' + data[i].DepartmentID + '">' + data[i].DepartmentName + '</option>';  
+               }  
+               $("#departmentsDropdown").html(s);  
+           }  
+       });  
+   });  
+
 
