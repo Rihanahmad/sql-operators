@@ -12,3 +12,67 @@ select * from ahmad where city='sbd' and naam='sameer'
 select * from ahmad where city='sbd' and (city='sbd' or city='saifni')
 
 
+use demo
+select*from country
+select*from state
+sp_rename 'username.state','country'
+
+
+create table country(id int identity primary key,name nvarchar(100))
+
+create table state(id int identity primary key,name nvarchar(100),countryid int foreign key references country (id))
+
+
+
+
+
+insert into country values('india')
+insert into country values('japan')
+insert into country values('iran')
+insert into country values('malaysia')
+insert into country values('america')
+
+insert into state values('uttar pradesh',1)
+insert into state values('
+Andhra Pradesh',1)
+insert into state values('bihar',1)
+insert into state values('assam',1)
+insert into  state values ('Chūbu',2)
+insert into  state values (' Niigata',2)
+insert into state values('Toyama',2)
+insert into state values('Tiioyama',2)
+insert into state values('Ilam	',3)
+insert into state values('Isfahan	',3)
+insert into state values('Kerman	',3)
+insert into state values('Kermanshah	',3)
+
+insert into state values('Johor',4)
+insert into state values('Kedah',4)
+insert into state values('Kelantan',4)
+insert into state values('Malacca',4)
+
+insert into state values('Alabama',5)
+insert into state values('Florida',5)
+insert into state values('Alaska',5)
+insert into state values('Hawaii',5)
+
+sp_rename 'state','statetab'
+
+select* from statetab
+
+
+alter proc get
+@countryid int
+as
+begin
+select id,name,countryid from statetab where countryid=@countryid
+end
+execute get 1
+
+create proc alldata
+as
+begin
+select* from countrytab
+end
+
+
