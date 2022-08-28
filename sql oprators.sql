@@ -111,5 +111,23 @@ public ActionResult getDepartment()
    });  
    
    https://www.c-sharpcorner.com/article/crud-operation-in-asp-net-mvc-using-ajax-and-bootstrap/
+   
+   
+    public class statemodel
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int  Countryid {get; set; }
+    }
+    
+    
+    
+  public class countrymodel
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }  
+    
+    
 
 
