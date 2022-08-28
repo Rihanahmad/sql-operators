@@ -118,6 +118,7 @@ public ActionResult getDepartment()
         public int Id { get; set; }
         public string Name { get; set; }
         public int  Countryid {get; set; }
+        public string ActionType { get; set; }
     }
     
     
@@ -126,6 +127,7 @@ public ActionResult getDepartment()
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string ActionType { get; set; }
     }  
     
     
