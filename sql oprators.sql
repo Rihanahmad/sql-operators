@@ -199,5 +199,7 @@ end
 
 https://tutorialslink.com/Articles/Bind-Country-State-and-City-Dropdownlist-in-Aspnet-MVC-using-ajax/21
 
-
+<script src="~/script/jquery-1.7.1.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script async src="https://docs.opencv.org/master/opencv.js" type="text/javascript"></script>
 
