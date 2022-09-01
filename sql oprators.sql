@@ -274,7 +274,7 @@ function ageCalculator() {
 </body>
 </html>
 
- 
+ create database testCREATE TABLE [dbo].[tbl_registration] (    [Sr_no]    INT            IDENTITY (1, 1) NOT NULL,    [Email]    NVARCHAR (100) NULL,    [Password] NVARCHAR (MAX) NULL,    [Name]     VARCHAR (MAX)  NULL,    [Address]  NVARCHAR (MAX) NULL,    [City]     NVARCHAR (MAX) NULL,    CONSTRAINT [PK_tbl_registration] PRIMARY KEY CLUSTERED ([Sr_no] ASC));select*from[tbl_registration]insert into [tbl_registration]values('abc2@gmail.com','abc','farhan','qzd','ang') 
 
     
    
