@@ -276,5 +276,36 @@ function ageCalculator() {
 
  create database testCREATE TABLE [dbo].[tbl_registration] (    [Sr_no]    INT            IDENTITY (1, 1) NOT NULL,    [Email]    NVARCHAR (100) NULL,    [Password] NVARCHAR (MAX) NULL,    [Name]     VARCHAR (MAX)  NULL,    [Address]  NVARCHAR (MAX) NULL,    [City]     NVARCHAR (MAX) NULL,    CONSTRAINT [PK_tbl_registration] PRIMARY KEY CLUSTERED ([Sr_no] ASC));select*from[tbl_registration]insert into [tbl_registration]values('abc2@gmail.com','abc','farhan','qzd','ang') 
 
-    
+   
+   
+  login pro
+  
+  alter proc [dbo].[usp_UserLogin](@EmailId nvarchar(255),@Pwd varchar(50))
+AS
+SET XACT_ABORT ON;
+BEGIN TRAN
+
+   SET @Pwd= (SELECT CONVERT(VARCHAR(32),HashBytes('MD5', @Pwd),2))
+   DECLARE @UserId uniqueidentifier=(SELECT UserId FROM [DBO].[UserDetails] where EmailId=@EmailId and Pwd=@Pwd);
+
+   IF(@UserId is not null)
+   BEGIN
+        
+		SELECT 'Login successfully' as MSG, 1 as Success
+		DECLARE @SessionKey uniqueidentifier=NEWID();
+
+		INSERT INTO [DBO].[LoginAudit](UserIdRef,SessionKey,LoginDateTime,LogOutDateTime )
+		SELECT  UserId,FirstName,LastName,EmailId,@SessionKey as SessionKey FROM [DBO].[UserDetails] where EmailId=@EmailId and Pwd=@Pwd
+
+		--SELECT  @UserId,@SessionKey as SessionKey ,GETDATE(),GETDATE()UserIdRef,FirstName,LastName,EmailId FROM [DBO].[UserDetails] where EmailId=@EmailId and Pwd=@Pwd
+	END
+
+ ELSE
+    BEGIN
+	  SELECT 'Invailid email or password ' as MSG, 0 as Success
+	END
+
+COMMIT TRAN
+
+
    
