@@ -308,4 +308,111 @@ BEGIN TRAN
 COMMIT TRAN
 
 
+home controller
+
+  [HttpPost]
+        [ActionName("GetPost")]
+        public HttpResponseMessage GetPost(PostDetails _postDetails)
+        {
+            return Request.CreateResponse(HttpStatusCode.OK, UserDemRecord.Instance.GetPost(_postDetails), Configuration.Formatters.JsonFormatter);
+        }
+	
+	model.cs
+	
+	 public class UserDemRecord
+    {
+        private DAL _DAL;
+        ApiResponse apiResponse;
+        #region Singleton
+        private UserDemRecord() { }
+        private static readonly Lazy<UserDemRecord> lazy = new Lazy<UserDemRecord>(() => new UserDemRecord());
+        private readonly object com;
+
+        public static UserDemRecord Instance
+        {
+            get { return lazy.Value; }
+        }
+        #endregion
+
+        public ApiResponse AddUser(UserDetails cs)
+        {
+            apiResponse = new ApiResponse();
+            try
+            {
+                cs.UserId = Guid.NewGuid().ToString();
+                _DAL = new DAL(ConfigurationManager.ConnectionStrings["con"].ConnectionString);
+                SqlParameter[] _SqlParameter = new SqlParameter[6];
+                _SqlParameter[0] = new SqlParameter("@UserId", cs.UserId);
+                _SqlParameter[1] = new SqlParameter("@FirstName", cs.FirstName);
+                _SqlParameter[2] = new SqlParameter("@LastName", cs.LastName);
+                _SqlParameter[3] = new SqlParameter("@EmailId", cs.EmailId);
+                _SqlParameter[4] = new SqlParameter("@Pwd", cs.Pwd);
+                _SqlParameter[5] = new SqlParameter("@TermCondition", cs.TermCondition);
+                DataTable dt = _DAL.ExecuteCommand("[dbo].[usp_UserSignup]", CommandType.StoredProcedure, _SqlParameter);
+                if (dt.Rows.Count > 0)
+                {
+                    apiResponse.success = Convert.ToInt16(dt.Rows[0]["Success"]);
+                    apiResponse.message = Convert.ToString(dt.Rows[0]["MSG"]);
+                }
+                else
+                {
+                    apiResponse.success = 0;
+                    apiResponse.message = "";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                apiResponse.success = 0;
+                apiResponse.message = "something went wrong";
+
+            }
+            return apiResponse;
+        }
+
+
+
+ public ApiResponse GetPost(PostDetails _posts)
+        {
+
+            apiResponse = new ApiResponse();
+            try
+            {
+                _DAL = new DAL(ConfigurationManager.ConnectionStrings["con"].ConnectionString);
+                SqlParameter[] _SqlParameter = new SqlParameter[3];
+                _SqlParameter[0] = new SqlParameter("@Title", _posts.Title);
+                _SqlParameter[1] = new SqlParameter("@PostContent", _posts.PostContent);
+                _SqlParameter[2] = new SqlParameter("@Mention", _posts.Mention);
+
+                DataSet ds = _DAL.ExecuteCommandGetDataSet("[dbo].[usp_GetPost]", CommandType.StoredProcedure, _SqlParameter);
+                if (ds.Tables.Count > 0)
+                {
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        apiResponse.success = 1;
+                        apiResponse.message = "";
+                        apiResponse.data = ds;
+                    }
+                }
+                else
+                {
+                    apiResponse.success = 0;
+                    apiResponse.message = "";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                apiResponse.success = 0;
+                apiResponse.message = "something went wrong";
+
+            }
+            return apiResponse;
+        }
+
+    }
+}
+
+
+
    
