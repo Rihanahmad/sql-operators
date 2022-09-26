@@ -414,5 +414,15 @@ home controller
 }
 
 
+  #region API response
+    public class ApiResponse
+    {
+        public int success { get; set; }
+        public string message { get; set; }
+        public object data { get; set; }
+    }
+    #endregion
+
+
 
    
